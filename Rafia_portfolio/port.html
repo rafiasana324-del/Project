@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rafia | Professional Portfolio</title>
+  
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --bg-card: rgba(15, 23, 42, 0.85);
+      --accent-blue: #38bdf8;
+      --electric-blue: #2563eb;
+      --text-white: #f8fafc;
+      --text-gray: #cbd5e1;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark); 
+      background-image: linear-gradient(to bottom, rgba(2, 6, 23, 0.65), rgba(2, 6, 23, 0.85)), 
+                        url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1920&q=80');
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      color: var(--text-white);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* --- NAVIGATION BAR --- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+      z-index: 1000;
+      padding: 1rem 2rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-white);
+      text-decoration: none;
+      background: linear-gradient(to right, #ffffff, var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--text-gray);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 7rem 2rem 2rem 2rem;
+    }
+
+    /* --- HOME / ABOUT SECTION --- */
+    .hero-section {
+      padding: 4rem 0;
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .about-box {
+      background: var(--bg-card);
+      padding: 3rem;
+      border-radius: 24px;
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      backdrop-filter: blur(12px);
+      width: 100%;
+      
+      /* Flexbox lagaya taaki intro aur pic ek sath ek line me aayein */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+
+    .hero-text-content {
+      flex: 1.5;
+    }
+
+    .image-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .image-glow {
+      position: absolute;
+      width: 105%;
+      height: 105%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, transparent 70%);
+      filter: blur(15px);
+      z-index: 1;
+    }
+
+    .profile-img {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 280px;
+      border-radius: 20px;
+      border: 2px solid var(--accent-blue);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      object-fit: cover;
+    }
+
+    .badge {
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.1rem;
+      font-size: 0.9rem;
+    }
+
+    .main-title {
+      font-size: 2.8rem;
+      margin: 0.5rem 0 1.5rem 0;
+      background: linear-gradient(to right, #ffffff, var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .intro-text {
+      color: var(--text-gray);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--electric-blue);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    .cta-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    /* --- EXPERIENCE SECTION --- */
+    .experience-section {
+      padding: 5rem 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    .section-heading::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--accent-blue);
+      margin: 10px auto 0 auto;
+      border-radius: 2px;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .exp-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(12px);
+    }
+
+    .exp-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 20px 30px -10px rgba(56, 189, 248, 0.3);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-content {
+      padding: 2rem;
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      color: var(--accent-blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .card-subtitle {
+      color: var(--accent-blue);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .card-desc {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* --- PROJECTS SECTION (Dynamic & Automated Carousel) --- */
+    .projects-section {
+      padding: 5rem 0;
+    }
+
+    .projects-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 2px solid rgba(56, 189, 248, 0.2);
+      border-radius: 24px;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      transition: all 0.4s ease;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 25px 50px rgba(56, 189, 248, 0.15);
+    }
+
+    .image-container-carousel {
+      width: 100%;
+      height: 320px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.6s ease-in-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .project-content {
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .project-title {
+      font-size: 1.8rem;
+      margin: 0 0 1rem 0;
+      color: white;
+    }
+
+    .project-desc {
+      color: var(--text-gray);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .project-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--electric-blue), #1d4ed8);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.9rem 2.5rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .project-link-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+    }
+
+    /* --- CONTACT SECTION --- */
+    .contact-section {
+      padding: 4rem 0 6rem 0;
+    }
+
+    .contact-wrapper {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 4rem 2rem;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+
+    .contact-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .contact-btn {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 1.5rem;
+      border-radius: 12px;
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .contact-btn strong {
+      display: block;
+      color: var(--accent-blue);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-btn:hover {
+      background: var(--electric-blue);
+      border-color: var(--accent-blue);
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+    }
+
+    /* --- RESPONSIVENESS --- */
+    @media (max-width: 968px) {
+      .about-box {
+        flex-direction: column; /* Mobile par layout column wise ho jayega */
+        text-align: center;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+      }
+      .cta-btn {
+        align-self: center;
+      }
+      .container {
+        padding: 6rem 1rem 1rem 1rem;
+      }
+      .nav-links {
+        gap: 1rem;
+      }
+      .image-container-carousel {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function App() {
+     
+      const automationPics = [
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+      ];
+
+      const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
+
+      
+      React.useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentImgIndex((prevIndex) => (prevIndex + 1) % automationPics.length);
+        }, 3000);
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <div>
+          {/* --- TOP HEADER / PAGES NAVIGATION --- */}
+          <nav className="navbar">
+            <div className="nav-container">
+              <a href="rafiii" className="nav-logo">Rafiii</a>
+              <div className="nav-links">
+            
+                <a href="#home" className="nav-link">Home</a>
+                <a href="#experience" className="nav-link">Experience</a>
+                <a href="#projects" className="nav-link">Projects</a>
+                <a href="#contact" className="nav-link">Contact</a>
+              </div>
+            </div>
+          </nav>
+
+          <div className="container">
+            
+            {/* --- HOMEPAGE / ABOUT US (Single unified box layout) --- */}
+            <section className="hero-section" id="home">
+              <div className="about-box">
+                
+                {/* Intro Text Content (Left Side on Desktop) */}
+                <div className="hero-text-content">
+                  <span className="badge">Welcome to my Portfolio</span>
+                  <h1 className="main-title">Hi, I'm Rafia Sana</h1>
+                  <p className="intro-text">
+                    I am a dedicated web developer focused on building high-performance websites. 
+                    Whether it is designing intricate front-end structures from scratch or configuring 
+                    intelligent, automated systems, I focus on building robust digital setups tailored to requirements.
+                  </p>
+                  <a href="#experience" className="cta-btn">Explore Experience</a>
+                </div>
+
+                {/* Profile Image Content (Right Side on Desktop) */}
+                <div className="image-wrapper">
+                  <div className="image-glow"></div>
+                  <img 
+                    src="photo/port_desing_banner.jpeg" 
+                    alt="portfolio image" 
+                    className="profile-img"
+                  />
+                </div>
+
+              </div>
+            </section>
+
+            {/* --- EXPERIENCE SECTION (3 Boxes with Coding Images) --- */}
+            <section className="experience-section" id="experience">
+              <h2 className="section-heading">My Expertise</h2>
+              
+              <div className="experience-grid">
+                
+                <div className="exp-card">
+                  <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=500&q=60" alt="Coding Frontend" className="card-img" />
+                  <div className="card-content">
+                    <div className="card-icon">💻</div>
+                    <h3 className="card-title">Frontend Development</h3>
+                    <div className="card-subtitle">1 Year Experience</div>
+                    <p className="card-desc">
+                      Specialized in custom coding interactive and fully responsive layouts with pixel-perfect designs.
+                    </p>
+                    <div className="tag-container">
+                      <span className="tech-tag">HTML</span>
+                      <span className="tech-tag">CSS</span>
+                      <span className="tech-tag">JavaScript</span>
+                      <span className="tech-tag">React</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="exp-card">
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=60" alt="AI Technology" className="card-img" />
+                  <div className="card-content">
+                    <div className="card-icon">🤖</div>
+                    <h3 className="card-title">AI Systems</h3>
+                    <div className="card-subtitle">10+ AI Tools Proficiency</div>
+                    <p className="card-desc">
+                      Expertise in workflow automation and smart setups, specifically tailored for building advanced WordPress websites.
+                    </p>
+                    <div className="tag-container">
+                      <span className="tech-tag">WordPress</span>
+                      <span className="tech-tag">AI Customization</span>
+                      <span className="tech-tag">Automation</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="exp-card">
+                  <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&w=500&q=60" alt="Database Coding" className="card-img" />
+                  <div className="card-content">
+                    <div className="card-icon">⚙️</div>
+                    <h3 className="card-title">Backend Architecture</h3>
+                    <div className="card-subtitle">Core Infrastructure</div>
+                    <p className="card-desc">
+                      Managing server-side operations, processing logic, and structuring structural relations effectively.
+                    </p>
+                    <div className="tag-container">
+                      <span className="tech-tag">PHP</span>
+                      <span className="tech-tag">Database</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            {/* --- PROJECTS SECTION (Dynamic & Automated) --- */}
+            <section className="projects-section" id="projects">
+              <h2 className="section-heading">Featured Projects</h2>
+              <div className="projects-grid">
+                <div className="project-card">
+                  
+                  <div className="image-container-carousel">
+                    {automationPics.map((url, index) => (
+                      <img 
+                        key={index}
+                        src={url} 
+                        alt="Project Slide" 
+                        className="project-img" 
+                        style={{ opacity: currentImgIndex === index ? 1 : 0 }}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="project-content">
+                    <h3 className="project-title">Creative Studio Layout</h3>
+                    <p className="project-desc">
+                      An advanced, fully configured interactive interface layout engineered for optimal responsiveness and cross-device performance.
+                    </p>
+                    
+                    <a 
+                      href="https://glistening-strudel-ea1420.netlify.app/studio.html" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="project-link-btn"
+                    >
+                      Open Live Project ↗
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </section>
+
+            {/* --- CONTACT SECTION --- */}
+            <section className="contact-section" id="contact">
+              <div className="contact-wrapper">
+                <h2 className="section-heading">Let's Connect</h2>
+                <p style={{color: 'var(--text-gray)'}}>Feel free to reach out through any preferred network below.</p>
+                
+                <div className="contact-links-grid">
+                  
+                  <a href="https://wa.me/03446402557" target="_blank" rel="noopener noreferrer" className="contact-btn">
+                    <strong>WhatsApp</strong>
+                    03446402557
+                  </a>
+
+                  <a href="mailto:rafiasana324@gmail.com" className="contact-btn">
+                    <strong>Gmail</strong>
+                    rafiasana324@gmail.com
+                  </a>
+
+                  <a href="https://www.instagram.com/me_rafia909?igsh=MTR6amYwanN3b21hMw==" target="_blank" rel="noopener noreferrer" className="contact-btn">
+                    <strong>Instagram</strong>
+                    @me_rafia909
+                  </a>
+
+                  <a href="https://www.tiktok.com/@rafiii_515?_r=1&_t=ZS-96gHfnvQS5F" target="_blank" rel="noopener noreferrer" className="contact-btn">
+                    <strong>TikTok</strong>
+                    @rafiii_515
+                  </a>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      );
+    }
+
+    // Render App Component into the real DOM Root Element
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
